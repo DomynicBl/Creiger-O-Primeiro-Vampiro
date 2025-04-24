@@ -1,0 +1,37 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Visual Studio
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# Mac OS / Linux / Windows
+.DS_Store
+*.swp
+*.tmp
+*.bak
+*.orig
+*.rej
+*.log
+Thumbs.db
+desktop.ini
+
+# Unity Cache
+*.unitypackage
+
+# Rider
+.idea/
+*.sln.iml
