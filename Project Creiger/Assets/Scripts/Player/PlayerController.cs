@@ -25,7 +25,9 @@ public class PlayerController : MonoBehaviour{
         
         if (Input.GetButtonDown("Jump") && isGrounded ){ // Verifica se o player apertou o botão de pulo estando no chao
             addJump = 1; // Adiciona um pulo ao player
+            jumpForce = 10; // Aumenta a força do pulo
             Jump(); // Chama a função de pulo
+            jumpForce = 8; // Reseta a força do pulo
         }else if(Input.GetButtonDown("Jump") && addJump>0){ // Verifica se o player apertou o botão de pulo e não estando no chao
             addJump--; // Remove um pulo do player
             Jump(); // Chama a função de pulo
@@ -33,7 +35,8 @@ public class PlayerController : MonoBehaviour{
     }
 
     void FixedUpdate(){ // Roda em todo frame fixo
-        Move();
+        Move(); // Chama a função de movimento
+        Attack(); // Chama a função de ataque
     }
 
     // Funções do Player 
@@ -54,6 +57,12 @@ public class PlayerController : MonoBehaviour{
     void Jump(){ // Função de pulo do Player 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         anim.SetBool("IsJump", true); // Ativa a animação de pulo
+    }
+
+    void Attack(){ // Função de ataque do Player
+       if(Input.GetButtonDown("Fire1")){ // Verifica se o player apertou o botão de ataque
+            anim.Play("Animation - Attack", -1); // Ativa a animação de ataque
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision){ // Função que verifica se o player colidiu com o chão
