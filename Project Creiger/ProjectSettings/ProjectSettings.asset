@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 3d02d888670ae7b4bac925228f3e6645
+  productGUID: 86f11bf774158aa4bb2334b78726bd11
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Project Creiger
+  productName: Craiger - O primeiro Vampiro
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -595,14 +595,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Project Creiger
+  metroPackageName: Craiger - O primeiro Vampiro
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Project Creiger
+  metroApplicationDescription: Craiger - O primeiro Vampiro
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -673,11 +673,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 78ea7c9c-b14c-43ae-831e-6b1f2debe428
+  cloudProjectId: f867cffa-ef7d-49ed-a2f2-ba7bd3e8e701
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Project Creiger 2025-04-24_03-00-12
-  organizationId: domynicbarroslima
+  projectName: Craiger - O primeiro Vampiro 2025-05-19_14-49-25
+  organizationId: luisbraga87-hotmail-com
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
