@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6402157494113093180}
   - component: {fileID: 5986481990560558558}
   - component: {fileID: 408047044980481167}
+  - component: {fileID: 3829563307825301420}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 7
   m_Sprite: {fileID: 4723107735738678597, guid: 76a389fdbf773714bacab5b205f1aa86, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -179,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
+  sprintMultiplier: 1.5
 --- !u!95 &6402157494113093180
 Animator:
   serializedVersion: 7
@@ -239,3 +241,18 @@ MonoBehaviour:
   components:
   - {fileID: 5986481990560558558}
   - {fileID: 454480790131338909}
+--- !u!114 &3829563307825301420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439529081398067408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1b71b48465d4f4eb4c046e8549f797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 10
+  drainRate: 3
+  regenRate: 1

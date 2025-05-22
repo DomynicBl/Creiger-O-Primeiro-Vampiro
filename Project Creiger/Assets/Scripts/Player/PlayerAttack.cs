@@ -29,6 +29,10 @@ public class PlayerMeleeAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && cooldownTimer >= attackCooldown)
         {
             cooldownTimer = 0;
+
+            // Escolhe um índice de ataque aleatório entre 0 e 2
+            int randomIndex = Random.Range(0, 3);
+            anim.SetInteger("AttackIndex", randomIndex);
             anim.SetTrigger("attack");
         }
     }
