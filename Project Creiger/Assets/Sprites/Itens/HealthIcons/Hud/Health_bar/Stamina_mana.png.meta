@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Stamina_mana_0: 7979660748217747239
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
