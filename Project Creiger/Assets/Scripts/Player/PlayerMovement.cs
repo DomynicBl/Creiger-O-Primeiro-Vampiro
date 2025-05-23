@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Para recarregar a cena
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -66,5 +67,27 @@ public class PlayerMovement : MonoBehaviour
             grounded = true;
             jumpCount = 0; // Reseta os pulos ao tocar o chão
         }
+    }
+
+    /**
+        Esta função é chamada quando o collider do jogador entra em um trigger
+    */
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        // Verifica se o collider que entrou no trigger é a DeathZone
+        if (other.CompareTag("DeathZone")) 
+        {
+            Debug.Log("Jogador caiu no buraco! Reiniciando fase...");
+            RestartLevel();
+        }
+    }
+    
+    /**
+        Recarrega a cena atual
+    */
+    void RestartLevel()
+    {
+        // Recarrega a cena atual
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
