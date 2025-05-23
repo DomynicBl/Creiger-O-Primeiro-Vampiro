@@ -1,9 +1,8 @@
-
 using UnityEngine;
 
 public class EnemyPatrol : MonoBehaviour
 {
-    [Header ("Patrol Points")]
+    [Header("Patrol Points")]
     [SerializeField] private Transform leftEdge;
     [SerializeField] private Transform rightEdge;
 
@@ -26,9 +25,22 @@ public class EnemyPatrol : MonoBehaviour
     {
         initScale = enemy.localScale;
     }
+
+    // Este método é chamado quando o script é desabilitado (ex: pelo MeleeEnemy)
     private void OnDisable()
     {
-        anim.SetBool("moving", false);
+        // Garante que a animação "moving" seja desativada quando o inimigo parar de patrulhar
+        if (anim != null)
+        {
+            anim.SetBool("moving", false);
+        }
+        // Opcional: Parar o movimento do Rigidbody se houver um
+        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            // AQUI ESTÁ A MUDANÇA: Usando linearVelocity ao invés de velocity
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     private void Update()

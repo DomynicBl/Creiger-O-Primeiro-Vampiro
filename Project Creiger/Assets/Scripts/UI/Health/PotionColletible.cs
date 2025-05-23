@@ -1,15 +1,20 @@
 using UnityEngine;
 
-public class HealthCollectible : MonoBehaviour
+public class PotionCollectible : MonoBehaviour
 {
-    [SerializeField] private float healthValue;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player")) // Usa CompareTag para performance e segurança
         {
-            collision.GetComponent<Health>().AddHealth(healthValue);
-            gameObject.SetActive(false);
+            PlayerInventory playerInventory = collision.GetComponent<PlayerInventory>();
+            if (playerInventory != null)
+            {
+                if (playerInventory.AddPotion()) // Tenta adicionar a poção ao inventário do jogador
+                {
+                    gameObject.SetActive(false); // Desativa (remove) a poção do cenário
+                    Debug.Log("[PotionCollectible] Poção coletada e desativada.");
+                }
+            }
         }
     }
 }
