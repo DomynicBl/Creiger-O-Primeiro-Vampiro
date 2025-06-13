@@ -1,22 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
 public class FadeScript : MonoBehaviour
 {
-    public Image fadeImage; // imagem preta no canvas
+    public static FadeScript Instance { get; private set; }
+
+    public Image fadeImage;
     public float fadeDuration = 1.5f;
     private Action onFadeComplete;
 
     private void Awake()
     {
-        Color c = fadeImage.color;
-        c.a = 1f; // começa preta
-        fadeImage.color = c;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
-    private void Start()
+    // Este método é chamado automaticamente sempre que uma cena é carregada.
+    // Vamos usá-lo para iniciar o FadeIn.
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(FadeIn());
     }
@@ -27,10 +44,11 @@ public class FadeScript : MonoBehaviour
         StartCoroutine(FadeOut());
     }
 
-    IEnumerator FadeOut()
+    public IEnumerator FadeOut()
     {
         float timer = 0f;
         Color c = fadeImage.color;
+        c.a = 0f;
 
         while (timer < fadeDuration)
         {
@@ -50,6 +68,7 @@ public class FadeScript : MonoBehaviour
     {
         float timer = 0f;
         Color c = fadeImage.color;
+        c.a = 1f;
 
         while (timer < fadeDuration)
         {
@@ -61,5 +80,10 @@ public class FadeScript : MonoBehaviour
 
         c.a = 0f;
         fadeImage.color = c;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

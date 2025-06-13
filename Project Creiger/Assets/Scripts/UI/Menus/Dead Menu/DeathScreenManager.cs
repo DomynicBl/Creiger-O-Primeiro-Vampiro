@@ -91,6 +91,8 @@ public class DeathScreenManager : MonoBehaviour
 
     private void ShowDeathScreen()
     {
+        Time.timeScale = 0f; // Pausa o jogo imediatamente
+
         Debug.Log("[DeathScreenManager] Player morreu! Exibindo tela de morte.");
         StartCoroutine(FadeInDeathScreen());
         if (deathMessageText != null)
@@ -133,7 +135,7 @@ public class DeathScreenManager : MonoBehaviour
                         enemyAnim.ResetTrigger("meleeAttack");
                         enemyAnim.speed = 1f;
                     }
-                    
+
                     Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
                     if (enemyRb != null) enemyRb.simulated = true;
                 }
