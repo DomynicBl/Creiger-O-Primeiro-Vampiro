@@ -57244,8 +57244,10 @@ GameObject:
   m_Component:
   - component: {fileID: 880127311}
   - component: {fileID: 880127312}
+  - component: {fileID: 880127314}
+  - component: {fileID: 880127313}
   m_Layer: 0
-  m_Name: Ground (892)
+  m_Name: Portal De Saida
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57321,6 +57323,65 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &880127313
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880127310}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.66}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 1
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.5, y: 0.66}
+  m_EdgeRadius: 0
+--- !u!114 &880127314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880127310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b6695426cc1af418413661bed4dc53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeScript: {fileID: 0}
 --- !u!1 &883384394
 GameObject:
   m_ObjectHideFlags: 0
@@ -112766,10 +112827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 640a1987a80fb4c4484f5faadc709287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepSound: {fileID: 8300000, guid: f17b0600d437c8c47b6996db38a20b73, type: 3}
-  swordAttackSound: {fileID: 8300000, guid: c5cc2f4f5f2e50940a18bf76418d02a8, type: 3}
-  deathSound: {fileID: 8300000, guid: 10ed503f27a03404fa208e273e5c9ae1, type: 3}
-  potionCollectSound: {fileID: 8300000, guid: 352a1de824d89e149a7c77d36a77d6fd, type: 3}
 --- !u!82 &1705815386
 AudioSource:
   m_ObjectHideFlags: 0
@@ -146032,6 +146089,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 457017325}
     m_Modifications:
+    - target: {fileID: 368490247634940095, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 445560054986899836, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1583855034865189942, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -146112,9 +146177,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1797147069526284817, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205609852251065362, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355452094740528910, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4479728905122569838, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046106873026305432, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5204549013070513093, guid: 0b38ad4be0b48cc42bce66d9925933d2, type: 3}
       propertyPath: playerStamina
@@ -146492,11 +146573,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9220832584743863124, guid: 0de34673737447c44acac00e6a7b3ca5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -257.87
+      value: -166.65
       objectReference: {fileID: 0}
     - target: {fileID: 9220832584743863124, guid: 0de34673737447c44acac00e6a7b3ca5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55.45
+      value: 42.47
       objectReference: {fileID: 0}
     - target: {fileID: 9220832584743863124, guid: 0de34673737447c44acac00e6a7b3ca5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -146880,6 +146961,10 @@ PrefabInstance:
     - target: {fileID: 8414187522294664753, guid: 21fc3f9aec3dc84409c97cfd177a10bf, type: 3}
       propertyPath: m_Name
       value: KillsCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 8414187522294664753, guid: 21fc3f9aec3dc84409c97cfd177a10bf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
