@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Collectables
   - DeathZone
+  - Grass
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,6 @@ TagManager:
   - Water
   - UI
   - 
-  - Ground
   - 
   - 
   - 
@@ -28,6 +28,7 @@ TagManager:
   - 
   - 
   - 
+  - BG - L1
   - 
   - 
   - 
@@ -42,8 +43,35 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackGround
+    uniqueID: 980998309
+    locked: 0
+  - name: BackGround L1
+    uniqueID: 3024602369
+    locked: 0
+  - name: BackGround L2
+    uniqueID: 2932832805
+    locked: 0
+  - name: BackGround L3
+    uniqueID: 1054863431
+    locked: 0
+  - name: Ground Back
+    uniqueID: 3126665439
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground Mid
+    uniqueID: 2832772297
+    locked: 0
+  - name: Player
+    uniqueID: 1854254541
+    locked: 0
+  - name: Ground
+    uniqueID: 838442799
+    locked: 0
+  - name: Ground Front
+    uniqueID: 4016580767
     locked: 0
   m_RenderingLayers:
   - Default

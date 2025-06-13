@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1854254541
+  m_SortingLayer: 2
   m_SortingOrder: 7
   m_Sprite: {fileID: -8804577451312863447, guid: bf22b362fdb0c5144a4912d1b063e749, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -172,11 +172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 4
-  iFramesDuration: 0
-  numberOfFlashes: 0
-  components:
-  - {fileID: 1132248403504587970}
-  - {fileID: 6664567870463317439}
+  bossHealthFillImage: {fileID: 0}
+  componentsToDisableOnDeath: []
 --- !u!114 &1132248403504587970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +368,14 @@ PrefabInstance:
     - target: {fileID: 5436754116823049036, guid: c5a0f41579b5457438a44b4343117ca1, type: 3}
       propertyPath: m_FlipX
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436754116823049036, guid: c5a0f41579b5457438a44b4343117ca1, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436754116823049036, guid: c5a0f41579b5457438a44b4343117ca1, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1854254541
       objectReference: {fileID: 0}
     - target: {fileID: 6464459008096746574, guid: c5a0f41579b5457438a44b4343117ca1, type: 3}
       propertyPath: m_Size.x
