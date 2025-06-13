@@ -1,110 +1,204 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour {
-    [Header("Referências")]
-    public Transform player;
-    public Transform leftPatrolPoint;
-    public Transform rightPatrolPoint;
+public class EnemyAI : MonoBehaviour
+{
+    public float speed = 3f;
+    public float jumpForce = 12f;
+    public float groundCheckDistance = 1f;
+    public float detectionRange = 8f;
+    public float chaseRange = 4f;
+    public float stoppingDistance = 0.5f;
 
-    [Header("Parâmetros de Movimento")]
-    public float speed = 2f;
-    public float jumpForce = 5f;
-    public float detectionRange = 10f;
-    public LayerMask groundMask;
+    public Transform groundCheck;
+    public LayerMask groundLayer;
+    public Transform player;
 
     private Rigidbody2D rb;
-    private AStarPathfinder pathfinder;
-    private GridManager gridManager;
-    private List<Node> currentPath;
-    private int pathIndex = 0;
-    private bool goingRight = true;
-    private Vector3 initialScale;
+    private bool isGrounded;
+    private bool isChasing;
+    private bool facingRight = false; // Começa olhando para a esquerda
+    private float lastKnownPlayerDirection = -1f; // Começa andando para esquerda
+    private bool hasSeenPlayer = false;
 
-    void Start() {
-        rb = GetComponent<Rigidbody2D>();
-        if (rb == null) {
-            Debug.LogError("Rigidbody2D não encontrado!");
-        }
+    private float jumpCooldown = 0.5f;  // tempo mínimo entre pulos
+    private float lastJumpTime = 0f;
 
-        pathfinder = FindObjectOfType<AStarPathfinder>();
-        gridManager = FindObjectOfType<GridManager>();
-
-        if (leftPatrolPoint == null || rightPatrolPoint == null) {
-            Debug.LogWarning("Patrol points não atribuídos — inimigo não vai patrulhar.");
-        }
-
-        initialScale = transform.localScale;
-    }
-
-    void Update() {
-        // Verifica se o jogador está dentro do alcance
-        if (Vector2.Distance(transform.position, player.position) < detectionRange) {
-            currentPath = pathfinder.FindPath(transform.position, player.position);
-            pathIndex = 0;
-        }
-
-        if (currentPath != null && pathIndex < currentPath.Count) {
-            Vector2 target = currentPath[pathIndex].worldPosition;
-            MoveTowards(target);
-
-            if (Vector2.Distance(transform.position, target) < 0.2f)
-                pathIndex++;
-        }
-        else {
-            Patrol(); // Ativa patrulha se não houver caminho
-        }
-    }
-
-    void MoveTowards(Vector2 target)
+    void Awake()
     {
-        Vector2 direction = (target - (Vector2)transform.position).normalized;
+        rb = GetComponent<Rigidbody2D>();
 
-        // Aplica movimento horizontal mantendo a velocidade vertical
-        rb.linearVelocity = new Vector2(direction.x * speed, rb.linearVelocity.y);
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // Corrige direção visual do sprite
-        if (direction.x != 0){
-            Vector3 scale = initialScale;
-            scale.x *= -Mathf.Sign(direction.x); // Corrige a inversão
+        UpdateFacingDirection(lastKnownPlayerDirection);
+    }
+
+    void Update()
+    {
+        DetectGround();
+
+        // Debug: posição do inimigo e groundCheck
+        Debug.Log($"Inimigo posição: {transform.position}, GroundCheck posição: {groundCheck.position}");
+
+        if (player == null) return;
+
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= chaseRange)
+        {
+            if (!hasSeenPlayer)
+            {
+                hasSeenPlayer = true;
+                isChasing = true;
+
+                lastKnownPlayerDirection = Mathf.Sign(player.position.x - transform.position.x);
+                UpdateFacingDirection(lastKnownPlayerDirection);
+                Debug.Log("Jogador detectado. Perseguindo na direção: " + lastKnownPlayerDirection);
+            }
+        }
+        else if (distanceToPlayer > detectionRange)
+        {
+            if (hasSeenPlayer)
+                Debug.Log("Jogador perdido. Voltando a patrulhar.");
+
+            isChasing = false;
+            hasSeenPlayer = false;
+
+            lastKnownPlayerDirection = -1f;
+            UpdateFacingDirection(lastKnownPlayerDirection);
+        }
+
+        if (isChasing)
+            ChasePlayer();
+        else
+            Patrol();
+
+        // Debug: velocidade e direção
+        Debug.Log($"Direção atual: {lastKnownPlayerDirection}, Velocidade X: {rb.linearVelocity.x}");
+    }
+
+    void DetectGround()
+    {
+        isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
+        Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
+    }
+
+    bool IsGroundAhead()
+    {
+        Vector2 origin = (Vector2)(groundCheck.position + Vector3.right * lastKnownPlayerDirection * 0.5f);
+        float rayLength = groundCheckDistance + 0.2f;
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, rayLength, groundLayer);
+        Debug.DrawRay(origin, Vector2.down * rayLength, hit.collider != null ? Color.green : Color.red);
+        return hit.collider != null;
+    }
+
+    bool IsPlatformWithinJump()
+    {
+        Vector2 origin = (Vector2)(groundCheck.position + Vector3.right * lastKnownPlayerDirection * 0.8f + Vector3.up * 1f);
+        float rayLength = 1.5f;
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, rayLength, groundLayer);
+        Debug.DrawRay(origin, Vector2.down * rayLength, hit.collider != null ? Color.cyan : Color.clear);
+        return hit.collider != null;
+    }
+
+    bool IsObstacleAhead()
+    {
+        Vector2 origin = (Vector2)(groundCheck.position + Vector3.up * 0.1f);
+        Vector2 direction = Vector2.right * lastKnownPlayerDirection;
+        float distance = 0.5f;
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, distance, groundLayer);
+        Debug.DrawRay(origin, direction * distance, hit.collider != null ? Color.yellow : Color.clear);
+        return hit.collider != null;
+    }
+
+    void Patrol()
+    {
+        MoveInDirection(lastKnownPlayerDirection);
+
+        if (!IsGroundAhead() && IsPlatformWithinJump())
+        {
+            if (isGrounded && Time.time - lastJumpTime > jumpCooldown)
+            {
+                Jump();
+                lastJumpTime = Time.time;
+            }
+        }
+        else if (IsObstacleAhead())
+        {
+            if (isGrounded && Time.time - lastJumpTime > jumpCooldown)
+            {
+                Jump();
+                lastJumpTime = Time.time;
+            }
+        }
+        else if (!IsGroundAhead())
+        {
+            FlipDirection();
+            Debug.Log("Fim da plataforma, inimigo virou.");
+        }
+    }
+
+    void ChasePlayer()
+    {
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        lastKnownPlayerDirection = Mathf.Sign(player.position.x - transform.position.x);
+        UpdateFacingDirection(lastKnownPlayerDirection);
+
+        if (distanceToPlayer > stoppingDistance)
+        {
+            MoveInDirection(lastKnownPlayerDirection);
+
+            if ((!IsGroundAhead() && IsPlatformWithinJump()) || IsObstacleAhead())
+            {
+                if (isGrounded && Time.time - lastJumpTime > jumpCooldown)
+                {
+                    Jump();
+                    lastJumpTime = Time.time;
+                }
+            }
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            Debug.Log("Inimigo perto do jogador, parando.");
+        }
+    }
+
+    void MoveInDirection(float direction)
+    {
+        Vector2 velocity = rb.linearVelocity;
+        velocity.x = direction * speed;
+        rb.linearVelocity = velocity;
+    }
+
+    void Jump()
+    {
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            Debug.Log("Inimigo pulou");
+        }
+    }
+
+    void FlipDirection()
+    {
+        lastKnownPlayerDirection *= -1f;
+        UpdateFacingDirection(lastKnownPlayerDirection);
+    }
+
+    void UpdateFacingDirection(float direction)
+    {
+        bool shouldFaceRight = direction > 0;
+        if (facingRight != shouldFaceRight)
+        {
+            facingRight = shouldFaceRight;
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * (facingRight ? 1 : -1);
             transform.localScale = scale;
         }
-
-        // Pula se houver obstáculo e estiver no chão
-        if (ObstacleInFront() && IsGrounded()){
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
-
-    }
-
-
-    void Patrol() {
-        if (leftPatrolPoint == null || rightPatrolPoint == null) return;
-
-        Vector2 target = goingRight ? rightPatrolPoint.position : leftPatrolPoint.position;
-        MoveTowards(target);
-
-        if (Vector2.Distance(transform.position, target) < 0.2f) {
-            goingRight = !goingRight;
-        }
-    }
-
-    bool ObstacleInFront() {
-        Vector2 direction = new Vector2(Mathf.Sign(rb.linearVelocity.x), 0);
-        Vector2 origin = transform.position + Vector3.up * 0.3f;
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 1f, groundMask);
-        Debug.DrawRay(origin, direction * 1f, Color.green);
-
-        return hit.collider != null;
-    }
-
-    bool IsGrounded() {
-        Vector2 origin = transform.position + Vector3.down * 0.1f;
-        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f, groundMask);
-        Debug.DrawRay(origin, Vector2.down * 0.2f, Color.red);
-
-        return hit.collider != null;
     }
 }

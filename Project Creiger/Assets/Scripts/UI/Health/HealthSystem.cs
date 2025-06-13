@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System; // Necessário para usar Action (eventos)
 
@@ -10,6 +11,9 @@ public class Health : MonoBehaviour
 
     private Animator anim;
     private bool dead;
+    [Header("Boss UI (opcional)")]
+    [SerializeField] private Image bossHealthFillImage; // A imagem da barra de vida do boss    
+
 
     // Propriedade pública para acessar a vida máxima
     public float MaxHealth
@@ -54,6 +58,7 @@ public class Health : MonoBehaviour
             Debug.Log($"[Health] {gameObject.name}: Recebeu dano efetivo! Vida antes: {healthBeforeDamage}, Vida agora: {currentHealth}.");
             StartCoroutine(FlashRed()); // Efeito visual de piscar vermelho
         }
+        UpdateBossHealthBar();
 
         if (currentHealth <= 0) // Morreu
         {
@@ -80,6 +85,7 @@ public class Health : MonoBehaviour
         {
             anim.SetTrigger("hurt"); // Animação de dor
         }
+
     }
 
     public void AddHealth(float _value)
@@ -105,5 +111,13 @@ public class Health : MonoBehaviour
     {
         gameObject.SetActive(false); // Desativa o GameObject
         Debug.Log($"[Health] {gameObject.name} desativado.");
+    }
+    
+    private void UpdateBossHealthBar()
+    {
+        if (bossHealthFillImage != null)
+        {
+            bossHealthFillImage.fillAmount = currentHealth / startingHealth;
+        }
     }
 }
