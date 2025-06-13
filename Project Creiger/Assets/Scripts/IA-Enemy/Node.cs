@@ -1,29 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
-public class Node
-{
+public class Node : IHeapItem<Node> {
     public bool walkable;
-    public Vector3 worldPosition;
-    public int gridX;
-    public int gridY;
+    public Vector2 worldPosition;
+    public int gridX, gridY;
 
-    public int gCost; // custo do nó desde o início
-    public int hCost; // heurística para o fim
+    public int gCost;
+    public int hCost;
     public Node parent;
 
-    public Node(bool walkable, Vector3 worldPos, int x, int y)
-    {
+    public int fCost => gCost + hCost;
+
+    int heapIndex;
+    public int HeapIndex {
+        get => heapIndex;
+        set => heapIndex = value;
+    }
+
+    public int CompareTo(Node other) {
+        int compare = fCost.CompareTo(other.fCost);
+        if (compare == 0) {
+            compare = hCost.CompareTo(other.hCost);
+        }
+        return compare;
+    }
+
+    public Node(bool walkable, Vector2 worldPos, int x, int y) {
         this.walkable = walkable;
         this.worldPosition = worldPos;
         this.gridX = x;
         this.gridY = y;
     }
-
-    public int fCost
-    {
-        get
-        {
-            return gCost + hCost;
-        }
-    }
 }
+
